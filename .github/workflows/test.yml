@@ -1,0 +1,22 @@
+name: Teraslice CI Tests
+# this will technically run again on merge to master, should limit it
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs: 
+    basic-test:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Check out code
+          uses: actions/checkout@v4
+    
+        - name: Setup Node
+          uses: actions/setup-node@v4
+          with:
+            node-version: 18.19.1
+
+        - name: Check node version
+          run: node -v       
+        - name: Test
+          run: npm test
