@@ -1,0 +1,12 @@
+{
+  "name": "test-actions-cache",
+  "version": "0.1.0",
+  "description": "Test package for CI cache",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "Joseph S",
+  "license": "ISC"
+}
