@@ -27,7 +27,7 @@ jobs:
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
 
-        - name: Check docker.hub limit
+        - name: Check docker.hub limit before
           env:
             USER: ${{ secrets.DOCKER_USERNAME }}
             PASS: ${{ secrets.DOCKER_PASSWORD }}
@@ -38,3 +38,37 @@ jobs:
 
         - name: Test Docker Pull
           run: npm test
+
+        - name: Restore Docker image cache
+          id: docker-cache
+          uses: actions/cache@v3
+          with:
+            path: /tmp/docker_cache
+            key: docker-images-${{ hashFiles('./images/image-list.txt') }}
+            restore-keys: |
+              docker-images-
+    
+        - name: Pull and save Docker images
+          if: steps.docker-cache.outputs.cache-hit != 'true'
+          # run: yarn saveDockerImages
+          run: |
+            if ! [ mkdir -p /tmp/docker_cache) ]; then
+              echo 'Directory already exists' >&2
+            fi
+            while IFS= read -r image; do
+              docker pull "$image"
+              docker save "$image" | gzip > "/tmp/docker_cache/$(echo $image | tr '/:' '__').tar.gz"
+            done < ./images/image-list.txt
+    
+        - name: Update Docker image cache
+          if: steps.docker-cache.outputs.cache-hit != 'true'
+          uses: actions/cache@v3
+          with:
+            path: /tmp/docker_cache
+            key: docker-images-${{ hashFiles('./images/image-list.txt') }}
+
+        - name: Check docker.hub limit after
+          env:
+            USER: ${{ secrets.DOCKER_USERNAME }}
+            PASS: ${{ secrets.DOCKER_PASSWORD }}
+          run: npm run docker:limit
