@@ -52,9 +52,7 @@ jobs:
           if: steps.docker-cache.outputs.cache-hit != 'true'
           # run: yarn saveDockerImages
           run: |
-            if ! [ mkdir -p /tmp/docker_cache ]; then
-              echo 'Directory already exists' >&2
-            fi
+            mkdir -p /tmp/docker_cache
             while IFS= read -r image; do
               docker pull "$image"
               docker save "$image" | gzip > "/tmp/docker_cache/$(echo $image | tr '/:' '__').tar.gz"
