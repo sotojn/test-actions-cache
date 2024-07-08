@@ -49,7 +49,7 @@ jobs:
               docker-images-
     
         - name: Pull and save Docker images
-          if: steps.docker-cache.outputs.cache-hit != 'true'
+          if: ${{steps.docker-cache.outputs.cache-hit != 'true'}}
           # run: yarn saveDockerImages
           run: |
             mkdir -p /tmp/docker_cache
@@ -59,7 +59,7 @@ jobs:
             done < ./images/image-list.txt
     
         - name: Update Docker image cache
-          if: steps.docker-cache.outputs.cache-hit != 'true'
+          if: ${{steps.docker-cache.outputs.cache-hit != 'true'}}
           uses: actions/cache@v3
           with:
             path: /tmp/docker_cache
