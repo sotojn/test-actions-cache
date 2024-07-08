@@ -123,7 +123,7 @@ jobs:
         - name: Echo image-list hash
           env:
             test: 'this is a test'
-            hash: ${{ hashFiles('./images/docker-image-list.txt') }}
+            hash: ${{ hashFiles('./images/image-list.txt') }}
           run: |
               echo "$hash"
               echo "$test"
@@ -139,7 +139,7 @@ jobs:
           uses: actions/cache@v3
           with:
             path: /tmp/docker_cache
-            key: docker-images-${{ hashFiles('./images/docker-image-list.txt') }}
+            key: docker-images-${{ hashFiles('./images/image-list.txt') }}
             restore-keys: |
               docker-images-
   
