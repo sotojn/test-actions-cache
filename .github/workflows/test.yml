@@ -122,8 +122,11 @@ jobs:
 
         - name: Echo image-list hash
           env:
+            test: 'this is a test'
             hash: ${{ hashFiles('./images/docker-image-list.txt') }}
-          run: echo "$hash"
+          run: |
+              echo "$hash"
+              echo "$test"
 
         - name: Check docker.hub limit after 'npm test'
           env:
