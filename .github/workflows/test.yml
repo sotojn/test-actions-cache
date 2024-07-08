@@ -120,6 +120,9 @@ jobs:
         - name: Create image list
           run: npm test
 
+        - name: Echo image-list hash
+          run: echo ${{ hashFiles('docker-image-list.txt') }}
+          
         - name: Check docker.hub limit after 'npm test'
           env:
             USER: ${{ secrets.DOCKER_USERNAME }}
