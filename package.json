@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "node index.js",
+    "pull": "node docker-pull.js",
     "docker:limit": "./docker-limit-check.sh"
   },
   "author": "Joseph S",

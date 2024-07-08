@@ -65,6 +65,9 @@ jobs:
             path: /tmp/docker_cache
             key: docker-images-${{ hashFiles('./images/image-list.txt') }}
 
+        - name: Pull some images
+          run: npm pull
+
         - name: Check docker.hub limit after
           env:
             USER: ${{ secrets.DOCKER_USERNAME }}
