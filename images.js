@@ -17,7 +17,7 @@ export default async function images(action) {
  * @returns Record<string, string>
  */
 async function createImageList(imagesPath) {
-    const list = 'terascope/node-base:18.19.2\n'
+    const list = 'terascope/node-base:18.19.1\n'
                + 'terascope/node-base:20.11.1\n'
                + 'terascope/node-base:22.2.0\n'
                + `${config.ELASTICSEARCH_DOCKER_IMAGE}:6.8.6\n`
