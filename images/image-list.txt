@@ -1,0 +1,10 @@
+terascope/node-base:18.19.2
+terascope/node-base:20.11.1
+terascope/node-base:22.2.0
+elasticsearch:6.8.6
+elasticsearch:7.9.3
+opensearchproject/opensearch:1.3.10
+opensearchproject/opensearch:2.8.0
+confluentinc/cp-kafka:3.1
+confluentinc/cp-zookeeper:3.1
+minio/minio:RELEASE.2020-02-07T23-28-16Z
