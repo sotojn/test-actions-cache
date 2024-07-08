@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs: 
-    basic-test:
+    cache-docker-images:
         runs-on: ubuntu-latest
         steps:
         - name: Check out code
@@ -84,6 +84,61 @@ jobs:
             key: docker-images-${{ hashFiles('./images/image-list.txt') }}
 
         - name: Check docker.hub limit after 'Update Docker image cache'
+          env:
+            USER: ${{ secrets.DOCKER_USERNAME }}
+            PASS: ${{ secrets.DOCKER_PASSWORD }}
+          run: npm run docker:limit
+
+
+    job-that-needs-images:
+      runs-on: ubuntu-latest
+      needs: cache-docker-images
+      steps:
+        - name: Check out code
+          uses: actions/checkout@v4
+    
+        - name: Setup Node
+          uses: actions/setup-node@v4
+          with:
+            node-version: 18.19.1
+
+        - name: Login to Docker Hub
+          uses: docker/login-action@v3
+          with:
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
+
+        - name: Check docker.hub limit start
+          env:
+            USER: ${{ secrets.DOCKER_USERNAME }}
+            PASS: ${{ secrets.DOCKER_PASSWORD }}
+          run: npm run docker:limit
+
+        - name: Restore Docker image cache
+          id: docker-cache
+          uses: actions/cache@v3
+          with:
+            path: /tmp/docker_cache
+            key: docker-images-${{ hashFiles('docker-image-list.txt') }}
+            restore-keys: |
+              docker-images-
+  
+        - name: Decompress and load Docker images from cache
+          if: ${{steps.docker-cache.outputs.cache-hit == 'true'}}
+          run: |
+            for tar_gz in /tmp/docker_cache/*.tar.gz; do
+              if
+              gzip -dc "$tar_gz" | docker load
+            done
+  
+        - name: Pull Docker images if cache is not hit
+          if: steps.docker-cache.outputs.cache-hit != 'true'
+          run: |
+            while IFS= read -r image; do
+              docker pull "$image"
+            done < image-list.txt
+
+        - name: Check docker.hub limit after 'Pull Docker images if cache is not hit'
           env:
             USER: ${{ secrets.DOCKER_USERNAME }}
             PASS: ${{ secrets.DOCKER_PASSWORD }}
