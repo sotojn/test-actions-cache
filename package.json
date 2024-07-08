@@ -9,5 +9,8 @@
     "docker:limit": "./docker-limit-check.sh"
   },
   "author": "Joseph S",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "got": "^14.4.1"
+  }
 }
