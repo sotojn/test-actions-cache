@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "node index.js"
+    "test": "node index.js",
+    "docker:limit": "./docker-limit-check.sh"
   },
   "author": "Joseph S",
   "license": "ISC"
