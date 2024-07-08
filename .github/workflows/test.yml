@@ -132,7 +132,7 @@ jobs:
             done
   
         - name: Pull Docker images if cache is not hit
-          if: steps.docker-cache.outputs.cache-hit != 'true'
+          if: ${{steps.docker-cache.outputs.cache-hit != 'true'}}
           run: |
             while IFS= read -r image; do
               docker pull "$image"
