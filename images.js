@@ -1,4 +1,5 @@
 import fse from 'fs-extra';
+import { execa } from 'execa';
 import path from 'node:path';
 import * as config from './config.js';
 // import { ImagesAction } from './interfaces';
@@ -7,9 +8,9 @@ export default async function images(action) {
     if (action === 'list') {
         return createImageList('./images');
     }
-    // if (action === ImagesAction.Load) {
-    //     return loadImages();
-    // }
+    if (action === 'load') {
+        return loadImages('./images');
+    }
 }
 
 /**
@@ -26,16 +27,24 @@ async function createImageList(imagesPath) {
                + `${config.OPENSEARCH_DOCKER_IMAGE}:2.8.0\n`
                + `${config.KAFKA_DOCKER_IMAGE}:7.1.9\n`
                + `${config.ZOOKEEPER_DOCKER_IMAGE}:7.1.9\n`
-               + `${config.MINIO_DOCKER_IMAGE}:RELEASE.2020-02-07T23-28-16Z\n`;
+               + `${config.MINIO_DOCKER_IMAGE}:RELEASE.2020-02-07T23-28-16Z`;
     if (!fse.existsSync(imagesPath)) {
         await fse.emptyDir(imagesPath);
     }
     fse.writeFileSync(path.join(imagesPath, 'image-list.txt'), list);
 }
 
-// function loadImages(): void {
-//     return;
-// }
+function loadImages(imagesPath) {
+    const imagesString = fse.readFileSync(path.join(imagesPath, 'image-list.txt'), 'utf-8');
+    const imagesArray = imagesString.split('\n');
+    console.log(imagesString)
+    console.log(imagesArray)
+
+    const promiseArray = [];
+    for (const img of imagesArray) {
+        execa`docker pull ${img}`
+    }
+}
 
 // const list = {
 //     baseDockerImageNode18: 'terascope/node-base:18.19.1',

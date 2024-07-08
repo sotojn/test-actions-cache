@@ -11,8 +11,9 @@
   "author": "Joseph S",
   "license": "ISC",
   "dependencies": {
+    "execa": "^9.3.0",
     "fs-extra": "^11.2.0",
-    "ip": "^2.0.1",
-    "got": "^14.4.1"
+    "got": "^14.4.1",
+    "ip": "^2.0.1"
   }
 }
