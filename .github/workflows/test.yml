@@ -36,7 +36,7 @@ jobs:
         - name: npm Install
           run: npm install
 
-        - name: Test Docker Pull
+        - name: Create image list
           run: npm test
 
         - name: Check docker.hub limit after 'npm test'
