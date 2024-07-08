@@ -146,6 +146,7 @@ jobs:
         - name: Decompress and load Docker images from cache
           if: ${{steps.docker-cache.outputs.cache-hit == 'true'}}
           run: |
+            ls /tmp/docker_cache
             for tar_gz in /tmp/docker_cache/*.tar.gz; do
               if
               gzip -dc "$tar_gz" | docker load
