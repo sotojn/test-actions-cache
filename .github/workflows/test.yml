@@ -52,7 +52,7 @@ jobs:
           if: steps.docker-cache.outputs.cache-hit != 'true'
           # run: yarn saveDockerImages
           run: |
-            if ! [ mkdir -p /tmp/docker_cache) ]; then
+            if ! [ mkdir -p /tmp/docker_cache ]; then
               echo 'Directory already exists' >&2
             fi
             while IFS= read -r image; do
