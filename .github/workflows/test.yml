@@ -121,8 +121,8 @@ jobs:
           run: npm test
 
         - name: Echo image-list hash
-          run: echo ${{ hashFiles('docker-image-list.txt') }}
-          
+          run: echo ${{ hashFiles('./images/docker-image-list.txt') }}
+
         - name: Check docker.hub limit after 'npm test'
           env:
             USER: ${{ secrets.DOCKER_USERNAME }}
@@ -134,7 +134,7 @@ jobs:
           uses: actions/cache@v3
           with:
             path: /tmp/docker_cache
-            key: docker-images-${{ hashFiles('docker-image-list.txt') }}
+            key: docker-images-${{ hashFiles('./images/docker-image-list.txt') }}
             restore-keys: |
               docker-images-
   
