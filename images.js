@@ -24,8 +24,8 @@ async function createImageList(imagesPath) {
                + `${config.ELASTICSEARCH_DOCKER_IMAGE}:7.9.3\n`
                + `${config.OPENSEARCH_DOCKER_IMAGE}:1.3.10\n`
                + `${config.OPENSEARCH_DOCKER_IMAGE}:2.8.0\n`
-               + `${config.KAFKA_DOCKER_IMAGE}:3.1\n`
-               + `${config.ZOOKEEPER_DOCKER_IMAGE}:3.1\n`
+               + `${config.KAFKA_DOCKER_IMAGE}:7.1.9\n`
+               + `${config.ZOOKEEPER_DOCKER_IMAGE}:7.1.9\n`
                + `${config.MINIO_DOCKER_IMAGE}:RELEASE.2020-02-07T23-28-16Z\n`;
     if (!fse.existsSync(imagesPath)) {
         await fse.emptyDir(imagesPath);
