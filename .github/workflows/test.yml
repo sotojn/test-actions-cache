@@ -27,7 +27,7 @@ jobs:
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
 
-        - name: Check docker.hub limit before
+        - name: Check docker.hub limit start
           env:
             USER: ${{ secrets.DOCKER_USERNAME }}
             PASS: ${{ secrets.DOCKER_PASSWORD }}
@@ -39,6 +39,12 @@ jobs:
         - name: Test Docker Pull
           run: npm test
 
+        - name: Check docker.hub limit after 'npm test'
+          env:
+            USER: ${{ secrets.DOCKER_USERNAME }}
+            PASS: ${{ secrets.DOCKER_PASSWORD }}
+          run: npm run docker:limit
+
         - name: Restore Docker image cache
           id: docker-cache
           uses: actions/cache@v3
@@ -47,6 +53,12 @@ jobs:
             key: docker-images-${{ hashFiles('./images/image-list.txt') }}
             restore-keys: |
               docker-images-
+
+        - name: Check docker.hub limit after 'Restore Docker image cache'
+          env:
+            USER: ${{ secrets.DOCKER_USERNAME }}
+            PASS: ${{ secrets.DOCKER_PASSWORD }}
+          run: npm run docker:limit
     
         - name: Pull and save Docker images
           if: ${{steps.docker-cache.outputs.cache-hit != 'true'}}
@@ -57,6 +69,12 @@ jobs:
               docker pull "$image"
               docker save "$image" | gzip > "/tmp/docker_cache/$(echo $image | tr '/:' '__').tar.gz"
             done < ./images/image-list.txt
+
+        - name: Check docker.hub limit after 'Pull and save docker images'
+          env:
+            USER: ${{ secrets.DOCKER_USERNAME }}
+            PASS: ${{ secrets.DOCKER_PASSWORD }}
+          run: npm run docker:limit
     
         - name: Update Docker image cache
           if: ${{steps.docker-cache.outputs.cache-hit != 'true'}}
@@ -65,10 +83,16 @@ jobs:
             path: /tmp/docker_cache
             key: docker-images-${{ hashFiles('./images/image-list.txt') }}
 
+        - name: Check docker.hub limit after 'Update Docker image cache'
+          env:
+            USER: ${{ secrets.DOCKER_USERNAME }}
+            PASS: ${{ secrets.DOCKER_PASSWORD }}
+          run: npm run docker:limit
+
         - name: Pull some images
           run: npm run pull
 
-        - name: Check docker.hub limit after
+        - name: Check docker.hub limit after 'Pull some images'
           env:
             USER: ${{ secrets.DOCKER_USERNAME }}
             PASS: ${{ secrets.DOCKER_PASSWORD }}
