@@ -7,7 +7,8 @@
   "scripts": {
     "test": "node index.js",
     "pull": "node docker-pull.js",
-    "docker:limit": "./docker-limit-check.sh"
+    "docker:limit": "./docker-limit-check.sh",
+    "elasticsearch": "node esTest.js"
   },
   "author": "Joseph S",
   "license": "ISC",
