@@ -6,13 +6,16 @@
   "type": "module",
   "scripts": {
     "test": "node index.js",
-    "docker:limit": "./docker-limit-check.sh"
+    "pull": "node docker-pull.js",
+    "docker:limit": "./docker-limit-check.sh",
+    "elasticsearch": "node esTest.js"
   },
   "author": "Joseph S",
   "license": "ISC",
   "dependencies": {
+    "execa": "^9.3.0",
     "fs-extra": "^11.2.0",
-    "ip": "^2.0.1",
-    "got": "^14.4.1"
+    "got": "^14.4.1",
+    "ip": "^2.0.1"
   }
 }
