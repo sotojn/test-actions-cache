@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "node index.js",
-    "docker:limit": "./docker-limit-check.sh"
+    "docker:limit": "./docker-limit-check.sh",
+    "save:image": "./save-image.sh"
   },
   "author": "Joseph S",
   "license": "ISC",
